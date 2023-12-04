@@ -1,0 +1,68 @@
+//server side
+
+package udp;
+import java.net.*;
+imprt java.util.Hashset;
+
+public class UDPServer {
+	DatagramSocket socket;
+	Hashset<SocketAddress> group;
+	InetAdress addr;
+	String ip;
+	boolean firsttime;
+
+	public static void main (String [] awgs) {
+	UDPServer u = new UDPServer();
+		try {
+			u.run();
+		}
+		catch (exception e) {
+		e.printStackTrace();
+		}
+	}
+// look up Inet Address class:
+// getLocalHost();  static method
+// getHostAddress();  object method
+// getHostName();  object method
+
+	public void run () throws exception {
+		first time = true;
+		system.out.println"(***Server Started***\n");
+		group = new Hashset();
+		int port = 4000;
+		socket = new DatagramSocket(port);
+		try {
+		InetAddress addr = InetAddress.getLocalHost();
+		String hostname = addr.getHostName();
+		String hostaddress = addr.getHostAddress();
+		system.out.println("IP Address: " + hostaddress);
+		system.out.println("Port Number: " + port);
+		System.out.println("Hostname: " + hostname);
+		}
+		catch (UnknownHostException e) {
+		e.printStackTrace();
+		}
+// DatagramPacket:
+//Java Class for UDP packet
+
+	System.out.println("Clients Activity: ");
+		while (true){
+			byte[] buffer = new byte[1024];
+			DatagramPacket packet = new DatagramPacket(buffer, bufferlength);  //create a new UDP packet for recieving messages
+			socket.recieve(packet);
+			group.add(packet.getSocketAddress());
+			// SocketAddress contains 2 parts: IP + Port#
+			for(SocketAddress s: group){
+				if (firstTime == true){
+				String gr = "First Client Connected."
+				DatagramPacket greet = new DatagramPacket(gr.getBytes(),gr.length().s);  //create a new UDP packet for sending messages
+				Socket.send(greet);
+				firstTime = false;
+				}
+			System.out.println(s);
+			DatagramPacket p = new DatagramPacket(buffer,1024,s);
+			Socket.send(p);
+			} //end for
+		}  // end while
+	}// end run method
+}  // end UDPServer class
